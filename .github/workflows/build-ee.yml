@@ -39,7 +39,7 @@ jobs:
           password: ${{ secrets.GHCR_TOKEN }}
 
       - name: Build Execution Environment
-        run: ansible-builder build --container-runetime=docker --tag ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.EE_IMAGE_NAME }}:latest --file execution-environment.yml
+        run: ansible-builder build --container-runtime=docker --tag ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.EE_IMAGE_NAME }}:latest --file execution-environment.yml
 
       - name: Tag and Push Image
         run: |
