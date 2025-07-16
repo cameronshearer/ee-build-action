@@ -39,17 +39,14 @@ jobs:
           password: ${{ secrets.GHCR_TOKEN }}
 
       - name: Build Execution Environment
-        run: ansible-builder build --tag ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.EE_IMAGE_NAME }}:latest --file execution-environment.yml
+        run: ansible-builder build --tag ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.EE_IMAGE_NAME }}:latest --container-runetime=docker --file execution-environment.yml
 
       - name: Tag and Push Image
         run: |
           IMAGE_TAG=${{ github.sha }}
           FULL_REGISTRY_IMAGE_NAME=${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.EE_IMAGE_NAME }}
+          docker tag ${FULL_IMAGE_NAME}:latest ${FULL_IMAGE_NAME}:${IMAGE_TAG}
+          docker push ${FULL_IMAGE_NAME}:latest
+          docker push ${FULL_IMAGE_NAME}:${IMAGE_TAG}
+  
           
-          docker tag ${{ env.EE_IMAGE_NAME }}:latest ${FULL_REGISTRY_IMAGE_NAME}:latest
-          
-          docker push ${FULL_REGISTRY_IMAGE_NAME}:latest
-          
-          docker tag ${FULL_REGISTRY_IMAGE_NAME}:latest ${FULL_REGISTRY_IMAGE_NAME}:${IMAGE_TAG}
-          
-          docker push ${FULL_REGISTRY_IMAGE_NAME}:${IMAGE_TAG}
