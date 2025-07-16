@@ -1,10 +1,9 @@
-# .github/workflows/build-ee.yml
 name: Build and Push Ansible Execution Environment
 
 on:
   push:
     branches:
-      - main 
+      - master
   workflow_dispatch: 
 
 env:
